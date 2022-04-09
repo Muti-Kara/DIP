@@ -1,39 +1,14 @@
-package image;
+package image.operation;
+
+import image.GrayBuffer;
 
 /**
 * Sauvola
 */
 public class Sauvola {
-	static final double CLF_RED = 0.299;
-	static final double CLF_GREEN = 0.587;
-	static final double CLF_BLUE = 0.114;
-	
 	static final double MAX_STADNARD_DEVIATION = 128;
-	static final double SAUVOLA_PARAMETER = 0.5;
-	static final int WINDOW_SIZE = 19;
-	
-	
-	/**
-	* 
-	* @param p
-	* @return grayscaled version of p
-	*/
-	public static void convertRGBtoGrayScale(GrayBuffer image) {
-		for(int w = 0; w < image.getWidth(); w++){
-			for(int h = 0; h < image.getHeight(); h++){
-				image.set(w, h, makeGray(image.getBuffer().getRGB(w, h)));
-			}
-		}
-	}
-	
-	/**
-	* 
-	* @param pixel's RGB
-	* @return gray value for pixel
-	*/
-	public static int makeGray(int p) {
-		return (int) ((p >> 16 & 0xff) * CLF_RED + (p >> 8 & 0xff) * CLF_GREEN + (p & 0xff) * CLF_BLUE);
-	}
+	static final double SAUVOLA_PARAMETER = 0.38;
+	static final int WINDOW_SIZE = 21;
 	
 	/**
 	 * Binarizes this grayscale image
@@ -47,6 +22,9 @@ public class Sauvola {
 				double standartDeviation = findStandartDeviation(histogram, mean);
 				double threshold = mean * (1 + SAUVOLA_PARAMETER * ((standartDeviation/MAX_STADNARD_DEVIATION) - 1));
 				record[w][h] = image.get(w, h) > threshold;
+				if(w%500 == 0 && h%800 == 0) {
+					System.out.println("The location (" + w + ", " + h + ") have binarized.");
+				}
 			}
 		}
 		for(int w = 0; w < image.getWidth(); w++){

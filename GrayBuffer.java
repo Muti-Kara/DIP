@@ -53,6 +53,10 @@ public class GrayBuffer {
 		return new GrayBuffer(newImg);
 	}
 	
+	public GrayBuffer resize(double factor) {
+		return resize((int) (width * factor), (int) (height * factor));
+	}
+	
 	/**
 	* 
 	* @return a 2D double array from BufferedImage
@@ -83,6 +87,10 @@ public class GrayBuffer {
 	*/
 	public void set(int w, int h, int value) {
 		img.setRGB(w, h, (0xff << 24 | value << 16 | value << 8 | value));
+	}
+	
+	public void debug(int w, int h) {
+		img.setRGB(w, h, (0xff << 24 | 0xff << 16 | 0));
 	}
 	
 	/**
