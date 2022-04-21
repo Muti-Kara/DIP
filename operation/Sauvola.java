@@ -44,10 +44,9 @@ public class Sauvola {
 	* @return standart deviation of given histogram
 	*/
 	public static double findStandartDeviation(int[] histogram, double mean) {
-		double avg = mean;
 		double standartDeviation = 0;
 		for(int i = 0; i < 255; i++) {
-			standartDeviation += Math.pow(histogram[i] - avg, 2.0);
+			standartDeviation += Math.pow(histogram[i] - mean, 2.0);
 		}
 		return Math.sqrt(standartDeviation / (WINDOW_SIZE*WINDOW_SIZE));
 	}
