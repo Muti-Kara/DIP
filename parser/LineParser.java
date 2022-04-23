@@ -1,17 +1,24 @@
 package image.parser;
 
+import java.util.ArrayList;
+
 import image.GrayBuffer;
+import image.Line;
 
 /**
 * LineParser
 */
 public class LineParser extends Parser {
-	final int[] WINDOW_SIZES = new int[]{25, 24, 23, 22, 21, 20, 19, 18};
-	final int SIMPLIFIER = 100;
+	final int[] WINDOW_SIZES = new int[]{25, 24, 23, 22, 21, 20, 19};
+	final int SIMPLIFIER = 1;
+	final int VERTICAL_DISCONTINUITY = 25;
+	final int HORIZONTAL_DISCONTINUITY = 75;
 	
 	double[][] integral;
 	double[][] filterResponse;
 	int[][] usedFilterSize;
+	
+	ArrayList<Line> lines = new ArrayList<>();
 	
 	public LineParser(GrayBuffer buffer) {
 		super(buffer);
@@ -26,11 +33,12 @@ public class LineParser extends Parser {
 		buildIntegralImage();
 		applyFilters();
 		findCenters();
+		extractLines();
 	}
 	
 	public void findCenters() {
-		for(int w = 4*WINDOW_SIZES[0]; w < buffer.getWidth() - 4*WINDOW_SIZES[0]; w++){
-			for(int h = 2*WINDOW_SIZES[0]; h < buffer.getHeight() - 2*WINDOW_SIZES[0]; h++){
+		for(int h = 2*WINDOW_SIZES[0]; h < buffer.getHeight() - 2*WINDOW_SIZES[0]; h++){
+			for(int w = 4*WINDOW_SIZES[0]; w < buffer.getWidth() - 4*WINDOW_SIZES[0]; w++){
 				boolean flag = true;
 				for(int k = h - usedFilterSize[w][h]; k <= h + usedFilterSize[w][h]; k++){
 					if(h != k && filterResponse[w][h] <= filterResponse[w][k]) {
@@ -39,11 +47,45 @@ public class LineParser extends Parser {
 					}
 				}
 				if(flag) {
-					buffer.debug(w, h);;
+					buffer.mark(w, h);;
+					integral[w][h] *= -1;
 				}
 			}
 		}
 		System.out.println("Centers have been found");
+	}
+	
+	public void extractLines() {
+		for(int w = 0; w < buffer.getWidth(); w++) {
+			for (int h = 0; h < buffer.getHeight(); h++) {
+				if(integral[w][h] < 0){
+					Line line = new Line(w, h);
+					extractLine(line);
+					lines.add(line);
+				}
+			}
+		}
+	}
+	
+	public void extractLine(Line line) {
+		int w = line.getwEnd();
+		int h = line.gethEnd();
+		
+		for (int error = 1; error < HORIZONTAL_DISCONTINUITY; error++) {
+			boolean flag = false;
+			for(int k = h - VERTICAL_DISCONTINUITY; k <= h + VERTICAL_DISCONTINUITY; k++){
+				if (integral[w+error][k] < 0){
+					flag = true;
+					line.extend(w+error, k);
+					extractLine(line);
+					buffer.unMark(w+error, k);
+					integral[w+error][k] *= -1;
+				}
+			}
+			if (flag)
+				return;
+		}
+		
 	}
 	
 	/**
@@ -114,6 +156,14 @@ public class LineParser extends Parser {
 			- integral[x - 4 * size][y + size]
 			+ integral[x - 4 * size][y - size]
 			);
+	}
+	
+	public int getSize() {
+		return lines.size();
+	}
+	
+	public Line getLine(int index) {
+		return lines.get(index);
 	}
 	
 }

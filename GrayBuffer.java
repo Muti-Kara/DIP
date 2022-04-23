@@ -8,6 +8,7 @@ import java.awt.image.BufferedImage;
 * @author Muti Kara
 */
 public class GrayBuffer {
+	final static int markColor = (0xff << 24 | 0xff << 16 | 0);
 	
 	BufferedImage img;
 	int width;
@@ -53,6 +54,11 @@ public class GrayBuffer {
 		return new GrayBuffer(newImg);
 	}
 	
+	/**
+	* resizes image with a factor
+	* @param factor
+	* @return resized graybuffer
+	*/
 	public GrayBuffer resize(double factor) {
 		return resize((int) (width * factor), (int) (height * factor));
 	}
@@ -89,8 +95,16 @@ public class GrayBuffer {
 		img.setRGB(w, h, (0xff << 24 | value << 16 | value << 8 | value));
 	}
 	
-	public void debug(int w, int h) {
-		img.setRGB(w, h, (0xff << 24 | 0xff << 16 | 0));
+	public void mark(int w, int h) {
+		img.setRGB(w, h, markColor);
+	}
+	
+	public void unMark(int w, int h) {
+		img.setRGB(w, h, 0);
+	}
+	
+	public boolean isMarked(int w, int h) {
+		return img.getRGB(w, h) == markColor;
 	}
 	
 	/**
