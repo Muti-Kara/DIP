@@ -10,7 +10,7 @@ import image.Line;
 */
 public class LineParser extends Parser {
 	final int[] WINDOW_SIZES = new int[]{25, 24, 23, 22, 21, 20, 19};
-	final int SIMPLIFIER = 1;
+	final int SIMPLIFIER = 5;
 	final int VERTICAL_DISCONTINUITY = 25;
 	final int HORIZONTAL_DISCONTINUITY = 75;
 	
