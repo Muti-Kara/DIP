@@ -1,9 +1,10 @@
 package image.operation;
 
-import image.GrayBuffer;
+import image.data.MyImage;
 
 /**
 * Sauvola
+* @author Muti Kara
 */
 public class Sauvola {
 	static final double MAX_STADNARD_DEVIATION = 128;
@@ -13,7 +14,7 @@ public class Sauvola {
 	/**
 	 * Binarizes this grayscale image
 	 * */
-	public static void binarize(GrayBuffer image) {
+	public static void binarize(MyImage image) {
 		boolean[][] record = new boolean[image.getWidth()][image.getHeight()];
 		for(int w = WINDOW_SIZE/2; w < image.getWidth() - WINDOW_SIZE/2; w++){
 			for(int h = WINDOW_SIZE/2; h < image.getHeight() - WINDOW_SIZE/2; h++){
@@ -73,7 +74,7 @@ public class Sauvola {
 	* @param y
 	* @return histogram of x and y centered window
 	*/
-	public static int[] findHistogram(GrayBuffer image, int x, int y) {
+	public static int[] findHistogram(MyImage image, int x, int y) {
 		int[] histogram = new int[256];
 		for(int w = x - WINDOW_SIZE/2; w < x + WINDOW_SIZE/2; w++){
 			for(int h = y - WINDOW_SIZE/2; h < y + WINDOW_SIZE/2; h++){

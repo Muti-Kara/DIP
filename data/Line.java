@@ -1,9 +1,10 @@
-package image;
+package image.data;
 
 import java.util.ArrayList;
 
 /**
-* Line
+ * Simple data structure to hold two Integer ArrayList.
+ * @author Muti Kara
 */
 public class Line {
 

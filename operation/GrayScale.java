@@ -1,9 +1,10 @@
 package image.operation;
 
-import image.GrayBuffer;
+import image.data.MyImage;
 
 /**
 * GrayScale
+* @author Muti Kara
 */
 public class GrayScale {
 	static final double CLF_RED = 0.299;
@@ -15,7 +16,7 @@ public class GrayScale {
 	* @param p
 	* @return grayscaled version of p
 	*/
-	public static void convertRGBtoGrayScale(GrayBuffer image) {
+	public static void convertRGBtoGrayScale(MyImage image) {
 		for(int w = 0; w < image.getWidth(); w++){
 			for(int h = 0; h < image.getHeight(); h++){
 				image.set(w, h, makeGray(image.getBuffer().getRGB(w, h)));

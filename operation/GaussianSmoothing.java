@@ -4,10 +4,11 @@ import java.awt.image.BufferedImage;
 import java.awt.image.ConvolveOp;
 import java.awt.image.Kernel;
 
-import image.GrayBuffer;
+import image.data.MyImage;
 
 /**
 * GaussianSmoothing
+* @author Muti Kara
 */
 public class GaussianSmoothing {
 	
@@ -16,9 +17,9 @@ public class GaussianSmoothing {
 	static Kernel kernel;
 	static ConvolveOp filter;
 	
-	public static GrayBuffer smooth(GrayBuffer input) {
+	public static MyImage smooth(MyImage input) {
 		BufferedImage output = filter.filter(input.getBuffer(), null);
-		return new GrayBuffer(output);
+		return new MyImage(output);
 	}
 	
 	public static float[] prepareData(int radius) {
@@ -44,7 +45,7 @@ public class GaussianSmoothing {
 		return Math.exp(-0.5 * a * a);
 	}
 	
-	public static void calculateKernel(int size) {
+	public static void prepareKernel(int size) {
 		kernel = new Kernel(size, size, prepareData(size/2));
 		filter = new ConvolveOp(kernel);
 	}

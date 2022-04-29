@@ -1,43 +1,27 @@
-package image;
+package image.data;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 /**
-* My grayscale image data structure for image manipulation
+* My image data structure for image manipulation
 * @author Muti Kara
 */
-public class GrayBuffer {
+public class MyImage {
 	final static int markColor = (0xff << 24 | 0xff << 16 | 0);
 	
 	BufferedImage img;
 	int width;
 	int height;
 	
-	String text;
-	double probability;
-	
 	/**
 	* Creates an GrayBuffer object from given BufferedImage
 	* @param img
 	*/
-	public GrayBuffer(BufferedImage img) {
+	public MyImage(BufferedImage img) {
 		this.width = img.getWidth();
 		this.height = img.getHeight();
 		this.img = img;
-	}
-	
-	/**
-	* 
-	* @param areaX
-	* @param areaY
-	* @param areaWidth
-	* @param areaHeight
-	* @return the rectangular area as a GrayBuffer
-	*/
-	public GrayBuffer cut(int areaX, int areaY, int areaWidth, int areaHeight) {
-		BufferedImage cutted = img.getSubimage(areaX, areaY, areaWidth, areaHeight);
-		return new GrayBuffer(cutted);
 	}
 	
 	/**
@@ -46,12 +30,27 @@ public class GrayBuffer {
 	* @param newHeight
 	* @return resized GrayBuffer 
 	*/
-	public GrayBuffer resize(int newWidth, int newHeight) {
+	public MyImage resize(int newWidth, int newHeight) {
 		BufferedImage newImg = new BufferedImage(newWidth, newHeight, this.getBuffer().getType());
 		Graphics2D graphics2d = newImg.createGraphics();
 		graphics2d.drawImage(img, 0, 0, newWidth, newHeight, null);
 		graphics2d.dispose();
-		return new GrayBuffer(newImg);
+		return new MyImage(newImg);
+	}
+	
+	/**
+	* Rotates the image.
+	* Note: This rotation is similar with getting traspose of image rather than rotating it with an angle!
+	* @return rotated image
+	*/
+	public MyImage rotate() {
+		BufferedImage newImg = new BufferedImage(height, width, img.getType());
+		for (int w = 0; w < width; w++) {
+			for (int h = 0; h < height; h++) {
+				newImg.setRGB(h, w, img.getRGB(w, h));
+			}
+		}
+		return new MyImage(newImg);
 	}
 	
 	/**
@@ -59,8 +58,29 @@ public class GrayBuffer {
 	* @param factor
 	* @return resized graybuffer
 	*/
-	public GrayBuffer resize(double factor) {
+	public MyImage resize(double factor) {
 		return resize((int) (width * factor), (int) (height * factor));
+	}
+	
+	/**
+	* Follows line data's locations with given height.
+	* 
+	* @param line
+	* @param lineHeight
+	* @return extracted line
+	*/
+	public MyImage getLineImg(Line line, int lineHeight) {
+		BufferedImage img = new BufferedImage(line.getSize(), lineHeight, this.img.getType());
+		for (int i = 0; i < line.getSize(); i++) {
+			for (int j = 0; j < lineHeight; j++) {
+				try {
+					img.setRGB(i, j, this.img.getRGB(line.getW(i), line.getH(i) + j - lineHeight/2));
+				} catch (Exception e) {
+					// Nothing requried
+				}
+			}
+		}
+		return new MyImage(img);
 	}
 	
 	/**
@@ -93,18 +113,6 @@ public class GrayBuffer {
 	*/
 	public void set(int w, int h, int value) {
 		img.setRGB(w, h, (0xff << 24 | value << 16 | value << 8 | value));
-	}
-	
-	public void mark(int w, int h) {
-		img.setRGB(w, h, markColor);
-	}
-	
-	public void unMark(int w, int h) {
-		img.setRGB(w, h, 0);
-	}
-	
-	public boolean isMarked(int w, int h) {
-		return img.getRGB(w, h) == markColor;
 	}
 	
 	/**
