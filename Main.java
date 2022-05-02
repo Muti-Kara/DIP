@@ -1,10 +1,12 @@
-package image;
+package dip;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
-import image.data.MyImage;
-import image.io.MyImageIO;
+import dip.data.MyImage;
+import dip.io.MyImageIO;
+import dip.Segmentation;
+
 
 
 /**

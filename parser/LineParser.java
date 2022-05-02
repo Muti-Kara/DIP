@@ -1,6 +1,6 @@
-package image.parser;
+package dip.parser;
 
-import image.data.MyImage;
+import dip.data.MyImage;
 
 /**
 * LineParser

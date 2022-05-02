@@ -1,4 +1,4 @@
-package image.data;
+package dip.data;
 
 import java.util.ArrayList;
 

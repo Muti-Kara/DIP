@@ -1,9 +1,9 @@
-package image.parser;
+package dip.parser;
 
 import java.util.ArrayList;
 
-import image.data.MyImage;
-import image.data.Line;
+import dip.data.Line;
+import dip.data.MyImage;
 
 /**
  * Parser class for applying a parsing routine

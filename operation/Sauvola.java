@@ -1,6 +1,6 @@
-package image.operation;
+package dip.operation;
 
-import image.data.MyImage;
+import dip.data.MyImage;
 
 /**
 * Sauvola

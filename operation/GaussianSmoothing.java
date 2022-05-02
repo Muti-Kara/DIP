@@ -1,10 +1,11 @@
-package image.operation;
+package dip.operation;
 
 import java.awt.image.BufferedImage;
 import java.awt.image.ConvolveOp;
 import java.awt.image.Kernel;
 
-import image.data.MyImage;
+import dip.data.MyImage;
+
 
 /**
 * GaussianSmoothing

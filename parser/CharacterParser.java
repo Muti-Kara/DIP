@@ -1,8 +1,8 @@
-package image.parser;
+package dip.parser;
 
 import java.util.ArrayList;
 
-import image.data.MyImage;
+import dip.data.MyImage;
 
 /**
 * LineParser

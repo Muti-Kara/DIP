@@ -1,14 +1,14 @@
-package image;
+package dip;
 
 import java.util.ArrayList;
 
-import image.data.MyImage;
-import image.operation.GaussianSmoothing;
-import image.operation.GrayScale;
-import image.operation.Sauvola;
-import image.parser.CharacterParser;
-import image.parser.LineParser;
-import image.parser.Parser;
+import dip.data.MyImage;
+import dip.operation.GaussianSmoothing;
+import dip.operation.GrayScale;
+import dip.operation.Sauvola;
+import dip.parser.CharacterParser;
+import dip.parser.LineParser;
+import dip.parser.Parser;
 
 /**
 * Segments the given image and holds an ArrayList of [ArrayList of (MyImages)(characters)][lines].
