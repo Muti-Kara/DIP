@@ -57,8 +57,8 @@ public class Segmentation {
 		}
 	}
 	
-	public ArrayList<MyImage> line(int index) {
-		return lines.get(index);
+	public MyImage[] line(int index) {
+		return lines.get(index).toArray(new MyImage[0]);
 	}
 	
 	public int size() {
