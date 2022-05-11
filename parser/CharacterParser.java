@@ -16,9 +16,9 @@ public class CharacterParser extends Parser {
 	* @param buffer
 	*/
 	public CharacterParser(MyImage originalBuffer, MyImage buffer) {
-		this.windowSize = new int[]{4, 3, 2, 1};
-		this.horizontalDiscontinuity = 10;
-		this.verticalDiscontinuity = 5;
+		this.windowSize = new int[]{6, 5, 4, 3, 2, 1};
+		this.horizontalDiscontinuity = 5;
+		this.verticalDiscontinuity = 10;
 		this.originalBuffer = originalBuffer.rotate();
 		this.buffer = buffer.rotate();
 		this.integral = new double[this.buffer.getWidth()][this.buffer.getHeight()];

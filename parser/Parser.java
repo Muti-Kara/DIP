@@ -26,6 +26,7 @@ public abstract class Parser {
 	* parses the image and etracts lines with given lineHeight
 	* @param lineHeight
 	* @return ArrayList of line's MyImages.
+	 * @throws IOException
 	*/
 	public ArrayList<MyImage> parse(int lineHeight) {
 		buildIntegralImage();
@@ -75,6 +76,7 @@ public abstract class Parser {
 	
 	/**
 	 * Finds center of lines
+	 * @throws IOException
 	 * */
 	public void findCenters() {
 		for(int h = 2*windowSize[0]; h < buffer.getHeight() - 2*windowSize[0]; h++){
@@ -88,6 +90,7 @@ public abstract class Parser {
 				}
 				if(flag) {
 					integral[w][h] *= -1;
+					// originalBuffer.set(w, h, 0);
 				}
 			}
 		}

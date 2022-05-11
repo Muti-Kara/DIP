@@ -16,15 +16,16 @@ import dip.parser.Parser;
 */
 public class Segmentation {
 	final int lineSmoothing = 60;
-	final int charSmoothing = 15;
+	final int charSmoothing = 10;
 	final int lineHeight = 80;
-	final int charWidth = 20;
+	final int charWidth = 30;
 	
 	ArrayList<ArrayList<MyImage>> lines = new ArrayList<>();
 	
 	/**
 	* Segmentation stage is done at constructor
 	* @param image
+	 * @throws IOException
 	*/
 	public Segmentation(MyImage image) {
 		GrayScale.convertRGBtoGrayScale(image);;
@@ -37,11 +38,15 @@ public class Segmentation {
 		Parser lineParser = new LineParser(image, smoothedImg);
 		ArrayList<MyImage> rawLines = lineParser.parse(lineHeight);
 		
+		System.out.println(rawLines.size() + " lines.");
+		
 		GaussianSmoothing.prepareKernel(charSmoothing);
 		for (int i = 0; i < rawLines.size(); i++) {
 			smoothedImg = GaussianSmoothing.smooth(rawLines.get(i));
 			Parser charParser = new CharacterParser(rawLines.get(i), smoothedImg);
 			ArrayList<MyImage> rawChars = charParser.parse(charWidth);
+			
+			int cnt = 0;
 			
 			if (rawChars.size() < 5) {
 				continue;
@@ -50,9 +55,11 @@ public class Segmentation {
 			ArrayList<MyImage> line = new ArrayList<>();
 			
 			for (int j = 0; j < rawChars.size(); j++) {
+				cnt++;
 				line.add( rawChars.get(j) );
 			}
 			
+			System.out.println(cnt + " characters in line " + (i+1));
 			lines.add(line);
 		}
 	}

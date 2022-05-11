@@ -14,6 +14,8 @@ public class MyImage {
 	int width;
 	int height;
 	
+	double mean = -1;
+	
 	/**
 	* Creates an GrayBuffer object from given BufferedImage
 	* @param img
@@ -81,6 +83,17 @@ public class MyImage {
 			}
 		}
 		return new MyImage(img);
+	}
+	
+	public double calculateMean() {
+		if (mean != -1) {
+			return mean;
+		}
+		double sum = 0;
+		for(int w = 0; w < width; w++)
+			for(int h = 0; h < height; h++)
+				sum += this.get(w, h);
+		return mean = sum / width * height;
 	}
 	
 	/**
